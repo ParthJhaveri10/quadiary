@@ -2,14 +2,24 @@ import axios from 'axios';
 
 // Replace with actual TMDB API endpoint and key
 const API_URL = 'https://api.themoviedb.org/3';
-const API_KEY = 'YOUR_TMDB_API_KEY';
+const API_TOKEN = import.meta.env.VITE_TMDB_API;
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
+// Create axios instance with bearer token authentication
+const tmdbAPI = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Authorization': `Bearer ${API_TOKEN}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+});
 
 // Search for TV shows
 export const searchTVShows = async (query, page = 1) => {
   try {
-    const response = await axios.get(`${API_URL}/search/tv`, {
+    const response = await tmdbAPI.get('/search/tv', {
       params: {
-        api_key: API_KEY,
         query,
         page,
         include_adult: false,
@@ -18,7 +28,11 @@ export const searchTVShows = async (query, page = 1) => {
     });
     
     return {
-      results: response.data.results,
+      results: response.data.results.map(show => ({
+        ...show,
+        poster_path: show.poster_path ? `${IMAGE_BASE_URL}${show.poster_path}` : null,
+        backdrop_path: show.backdrop_path ? `${IMAGE_BASE_URL}${show.backdrop_path}` : null
+      })),
       page: response.data.page,
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results
@@ -32,16 +46,19 @@ export const searchTVShows = async (query, page = 1) => {
 // Get TV show details by ID
 export const getTVShowById = async (tvId) => {
   try {
-    const tvShowDetailsPromise = axios.get(`${API_URL}/tv/${tvId}`, {
+    const response = await tmdbAPI.get(`/tv/${tvId}`, {
       params: {
-        api_key: API_KEY,
         append_to_response: 'credits,videos,images,similar,recommendations,content_ratings,season/1',
         language: 'en-US'
       }
     });
 
-    const response = await tvShowDetailsPromise;
-    return response.data;
+    const show = response.data;
+    return {
+      ...show,
+      poster_path: show.poster_path ? `${IMAGE_BASE_URL}${show.poster_path}` : null,
+      backdrop_path: show.backdrop_path ? `${IMAGE_BASE_URL}${show.backdrop_path}` : null
+    };
   } catch (error) {
     console.error('Error fetching TV show details:', error);
     throw error;
@@ -51,16 +68,19 @@ export const getTVShowById = async (tvId) => {
 // Get popular TV shows
 export const getPopularTVShows = async (page = 1) => {
   try {
-    const response = await axios.get(`${API_URL}/tv/popular`, {
+    const response = await tmdbAPI.get('/tv/popular', {
       params: {
-        api_key: API_KEY,
         page,
         language: 'en-US'
       }
     });
     
     return {
-      results: response.data.results,
+      results: response.data.results.map(show => ({
+        ...show,
+        poster_path: show.poster_path ? `${IMAGE_BASE_URL}${show.poster_path}` : null,
+        backdrop_path: show.backdrop_path ? `${IMAGE_BASE_URL}${show.backdrop_path}` : null
+      })),
       page: response.data.page,
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results
@@ -74,16 +94,19 @@ export const getPopularTVShows = async (page = 1) => {
 // Get top-rated TV shows
 export const getTopRatedTVShows = async (page = 1) => {
   try {
-    const response = await axios.get(`${API_URL}/tv/top_rated`, {
+    const response = await tmdbAPI.get('/tv/top_rated', {
       params: {
-        api_key: API_KEY,
         page,
         language: 'en-US'
       }
     });
     
     return {
-      results: response.data.results,
+      results: response.data.results.map(show => ({
+        ...show,
+        poster_path: show.poster_path ? `${IMAGE_BASE_URL}${show.poster_path}` : null,
+        backdrop_path: show.backdrop_path ? `${IMAGE_BASE_URL}${show.backdrop_path}` : null
+      })),
       page: response.data.page,
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results
@@ -97,9 +120,8 @@ export const getTopRatedTVShows = async (page = 1) => {
 // Discover TV shows by genre
 export const discoverTVShowsByGenre = async (genreId, page = 1) => {
   try {
-    const response = await axios.get(`${API_URL}/discover/tv`, {
+    const response = await tmdbAPI.get('/discover/tv', {
       params: {
-        api_key: API_KEY,
         with_genres: genreId,
         sort_by: 'popularity.desc',
         page,
@@ -109,7 +131,11 @@ export const discoverTVShowsByGenre = async (genreId, page = 1) => {
     });
     
     return {
-      results: response.data.results,
+      results: response.data.results.map(show => ({
+        ...show,
+        poster_path: show.poster_path ? `${IMAGE_BASE_URL}${show.poster_path}` : null,
+        backdrop_path: show.backdrop_path ? `${IMAGE_BASE_URL}${show.backdrop_path}` : null
+      })),
       page: response.data.page,
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results
@@ -123,9 +149,8 @@ export const discoverTVShowsByGenre = async (genreId, page = 1) => {
 // Get TV show season details
 export const getTVShowSeasonDetails = async (tvId, seasonNumber) => {
   try {
-    const response = await axios.get(`${API_URL}/tv/${tvId}/season/${seasonNumber}`, {
+    const response = await tmdbAPI.get(`/tv/${tvId}/season/${seasonNumber}`, {
       params: {
-        api_key: API_KEY,
         language: 'en-US'
       }
     });

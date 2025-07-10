@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -34,11 +34,14 @@ const SearchBar = ({
   onSearch, 
   placeholder = 'Search...', 
   initialQuery = '',
-  mediaType = 'default'
+  mediaType = 'default',
+  enableRealTimeSearch = true,
+  debounceDelay = 500
 }) => {
   const [query, setQuery] = useState(initialQuery);
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef(null);
+  const debounceTimerRef = useRef(null);
   
   // Get theme colors
   const getTheme = () => {
@@ -46,14 +49,61 @@ const SearchBar = ({
   };
   
   const theme = getTheme();
+
+  // Debounced search function
+  const debouncedSearch = useCallback((searchQuery) => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    
+    debounceTimerRef.current = setTimeout(() => {
+      if (searchQuery.trim() && enableRealTimeSearch) {
+        onSearch(searchQuery.trim(), mediaType);
+      } else if (!searchQuery.trim() && enableRealTimeSearch) {
+        // Clear results when search is empty
+        onSearch('', mediaType);
+      }
+    }, debounceDelay);
+  }, [onSearch, mediaType, enableRealTimeSearch, debounceDelay]);
+
+  // Handle input change with debounced search
+  const handleInputChange = (e) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+    
+    if (enableRealTimeSearch) {
+      debouncedSearch(newQuery);
+    }
+  };
   
-  // Handle search submission
+  // Handle search submission (for manual search or Enter key)
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
+      // Cancel debounce timer and search immediately
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
       onSearch(query.trim(), mediaType);
     }
   };
+
+  // Handle clear button
+  const handleClear = () => {
+    setQuery('');
+    if (enableRealTimeSearch) {
+      onSearch('', mediaType);
+    }
+  };
+
+  // Cleanup debounce timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
   
   // Add keyboard shortcut for focusing search (Ctrl+K or Cmd+K)
   useEffect(() => {
@@ -86,7 +136,7 @@ const SearchBar = ({
                    rounded-xl focus:outline-none text-white placeholder-slate-400 transition-all duration-300`}
           placeholder={placeholder}
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           aria-label="Search"
@@ -95,7 +145,7 @@ const SearchBar = ({
           <button
             type="button"
             className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white"
-            onClick={() => setQuery('')}
+            onClick={handleClear}
           >
             <XMarkIcon className="w-5 h-5" />
             <span className="sr-only">Clear search</span>

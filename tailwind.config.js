@@ -7,66 +7,66 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Modern dark theme inspired by AniList/Letterboxd
+        // Custom color palette based on user's preferences
         background: {
-          DEFAULT: '#0B0E16',
-          secondary: '#151922',
-          tertiary: '#1C2128'
+          DEFAULT: '#0B0C10', // Primary dark background
+          secondary: '#1F2833', // Medium dark
+          tertiary: '#1F2833'
         },
         surface: {
-          DEFAULT: '#1C2128',
-          hover: '#252A34',
-          active: '#2D3441',
-          glass: 'rgba(28, 33, 40, 0.8)'
+          DEFAULT: '#1F2833',
+          hover: '#2A3441',
+          active: '#334155',
+          glass: 'rgba(31, 40, 51, 0.8)'
         },
         text: {
-          primary: '#FFFFFF',
-          secondary: '#A0AEC0',
-          tertiary: '#718096',
-          muted: '#4A5568'
+          primary: '#C5C6C7', // Light neutral
+          secondary: '#C5C6C7cc', // Light neutral with opacity
+          tertiary: '#C5C6C799', // Light neutral with more opacity
+          muted: '#C5C6C766'
         },
         accent: {
           anime: {
-            DEFAULT: '#FF6B9D',
-            light: '#FF8FB3',
-            dark: '#E65A8A',
-            glow: 'rgba(255, 107, 157, 0.3)'
+            DEFAULT: '#66FCF1', // Cyan
+            light: '#7DFCF2',
+            dark: '#45A29E', // Teal
+            glow: 'rgba(102, 252, 241, 0.3)'
           },
           movie: {
-            DEFAULT: '#FF5722',
-            light: '#FF7043',
-            dark: '#D84315',
-            glow: 'rgba(255, 87, 34, 0.3)'
+            DEFAULT: '#45A29E', // Teal
+            light: '#66FCF1', // Cyan
+            dark: '#1F2833', // Dark
+            glow: 'rgba(69, 162, 158, 0.3)'
           },
           tv: {
-            DEFAULT: '#3F51B5',
-            light: '#5C6BC0',
-            dark: '#303F9F',
-            glow: 'rgba(63, 81, 181, 0.3)'
+            DEFAULT: '#66FCF1', // Cyan
+            light: '#7DFCF2',
+            dark: '#45A29E', // Teal
+            glow: 'rgba(102, 252, 241, 0.3)'
           },
           book: {
-            DEFAULT: '#4CAF50',
-            light: '#66BB6A',
-            dark: '#388E3C',
-            glow: 'rgba(76, 175, 80, 0.3)'
+            DEFAULT: '#45A29E', // Teal
+            light: '#66FCF1', // Cyan
+            dark: '#1F2833', // Dark
+            glow: 'rgba(69, 162, 158, 0.3)'
           }
         },
         rating: {
-          star: '#FFD700',
-          gold: '#FFB000',
-          silver: '#C0C0C0',
-          bronze: '#CD7F32'
+          star: '#66FCF1', // Using cyan for stars
+          gold: '#66FCF1',
+          silver: '#C5C6C7',
+          bronze: '#45A29E'
         },
         status: {
-          success: '#10B981',
-          warning: '#F59E0B',
-          error: '#EF4444',
-          info: '#3B82F6'
+          success: '#45A29E', // Teal for success
+          warning: '#66FCF1', // Cyan for warning
+          error: '#66FCF1', // Cyan for error (no red)
+          info: '#66FCF1' // Cyan for info
         },
         border: {
-          DEFAULT: '#2D3441',
-          hover: '#3A4553',
-          focus: '#4A5568'
+          DEFAULT: '#C5C6C7', // Light neutral
+          hover: '#C5C6C7cc',
+          focus: '#66FCF1' // Cyan for focus
         }
       },
       fontFamily: {
@@ -74,10 +74,10 @@ export default {
         display: ['Poppins', 'Inter', 'system-ui', 'sans-serif']
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(255, 107, 157, 0.3)',
-        'glow-blue': '0 0 20px rgba(63, 81, 181, 0.3)',
-        'glow-green': '0 0 20px rgba(76, 175, 80, 0.3)',
-        'glow-orange': '0 0 20px rgba(255, 87, 34, 0.3)',
+        'glow': '0 0 20px rgba(102, 252, 241, 0.3)', // Cyan glow
+        'glow-blue': '0 0 20px rgba(102, 252, 241, 0.3)', // Cyan glow
+        'glow-green': '0 0 20px rgba(69, 162, 158, 0.3)', // Teal glow
+        'glow-orange': '0 0 20px rgba(69, 162, 158, 0.3)', // Teal glow
         'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
@@ -105,8 +105,8 @@ export default {
           '100%': { transform: 'scale(1)', opacity: '1' }
         },
         glow: {
-          '0%': { boxShadow: '0 0 5px rgba(255, 107, 157, 0.2)' },
-          '100%': { boxShadow: '0 0 20px rgba(255, 107, 157, 0.4)' }
+          '0%': { boxShadow: '0 0 5px rgba(102, 252, 241, 0.2)' },
+          '100%': { boxShadow: '0 0 20px rgba(102, 252, 241, 0.4)' }
         }
       }
     },

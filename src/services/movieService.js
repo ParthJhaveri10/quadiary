@@ -2,14 +2,24 @@ import axios from 'axios';
 
 // Replace with actual TMDB API endpoint and key
 const API_URL = 'https://api.themoviedb.org/3';
-const API_KEY = 'YOUR_TMDB_API_KEY';
+const API_TOKEN = import.meta.env.VITE_TMDB_API;
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
+// Create axios instance with bearer token authentication
+const tmdbAPI = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Authorization': `Bearer ${API_TOKEN}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+});
 
 // Search for movies
 export const searchMovies = async (query, page = 1) => {
   try {
-    const response = await axios.get(`${API_URL}/search/movie`, {
+    const response = await tmdbAPI.get('/search/movie', {
       params: {
-        api_key: API_KEY,
         query,
         page,
         include_adult: false,
@@ -18,7 +28,11 @@ export const searchMovies = async (query, page = 1) => {
     });
     
     return {
-      results: response.data.results,
+      results: response.data.results.map(movie => ({
+        ...movie,
+        poster_path: movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : null,
+        backdrop_path: movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : null
+      })),
       page: response.data.page,
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results
@@ -32,16 +46,19 @@ export const searchMovies = async (query, page = 1) => {
 // Get movie details by ID
 export const getMovieById = async (movieId) => {
   try {
-    const movieDetailsPromise = axios.get(`${API_URL}/movie/${movieId}`, {
+    const response = await tmdbAPI.get(`/movie/${movieId}`, {
       params: {
-        api_key: API_KEY,
         append_to_response: 'credits,videos,images,similar,recommendations',
         language: 'en-US'
       }
     });
 
-    const response = await movieDetailsPromise;
-    return response.data;
+    const movie = response.data;
+    return {
+      ...movie,
+      poster_path: movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : null,
+      backdrop_path: movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : null
+    };
   } catch (error) {
     console.error('Error fetching movie details:', error);
     throw error;
@@ -51,16 +68,19 @@ export const getMovieById = async (movieId) => {
 // Get popular movies
 export const getPopularMovies = async (page = 1) => {
   try {
-    const response = await axios.get(`${API_URL}/movie/popular`, {
+    const response = await tmdbAPI.get('/movie/popular', {
       params: {
-        api_key: API_KEY,
         page,
         language: 'en-US'
       }
     });
     
     return {
-      results: response.data.results,
+      results: response.data.results.map(movie => ({
+        ...movie,
+        poster_path: movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : null,
+        backdrop_path: movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : null
+      })),
       page: response.data.page,
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results
@@ -74,16 +94,19 @@ export const getPopularMovies = async (page = 1) => {
 // Get top-rated movies
 export const getTopRatedMovies = async (page = 1) => {
   try {
-    const response = await axios.get(`${API_URL}/movie/top_rated`, {
+    const response = await tmdbAPI.get('/movie/top_rated', {
       params: {
-        api_key: API_KEY,
         page,
         language: 'en-US'
       }
     });
     
     return {
-      results: response.data.results,
+      results: response.data.results.map(movie => ({
+        ...movie,
+        poster_path: movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : null,
+        backdrop_path: movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : null
+      })),
       page: response.data.page,
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results
@@ -97,9 +120,8 @@ export const getTopRatedMovies = async (page = 1) => {
 // Discover movies by genre
 export const discoverMoviesByGenre = async (genreId, page = 1) => {
   try {
-    const response = await axios.get(`${API_URL}/discover/movie`, {
+    const response = await tmdbAPI.get('/discover/movie', {
       params: {
-        api_key: API_KEY,
         with_genres: genreId,
         sort_by: 'popularity.desc',
         page,
@@ -109,7 +131,11 @@ export const discoverMoviesByGenre = async (genreId, page = 1) => {
     });
     
     return {
-      results: response.data.results,
+      results: response.data.results.map(movie => ({
+        ...movie,
+        poster_path: movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : null,
+        backdrop_path: movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : null
+      })),
       page: response.data.page,
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results

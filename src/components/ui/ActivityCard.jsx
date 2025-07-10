@@ -2,7 +2,7 @@ import React from 'react';
 
 // Activity card component for recent activity display
 const ActivityCard = ({ type, title, rating, date, image }) => (
-  <div className="flex items-center p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/[0.08] transition-all duration-300">
+  <div className="flex items-center p-4 rounded-xl bg-[#C5C6C7]/5 border border-[#C5C6C7]/10 backdrop-blur-sm hover:bg-[#C5C6C7]/[0.08] transition-all duration-300">
     <div className="w-12 h-16 rounded-md overflow-hidden flex-shrink-0 mr-4">
       <img 
         src={image} 
@@ -16,21 +16,21 @@ const ActivityCard = ({ type, title, rating, date, image }) => (
     <div className="flex-1">
       <div className="flex items-center">
         <span className={`text-xs px-2 py-0.5 rounded-full ${
-          type === 'anime' ? 'bg-purple-500/20 text-purple-300' :
-          type === 'movie' ? 'bg-orange-500/20 text-orange-300' :
-          type === 'tv' ? 'bg-blue-500/20 text-blue-300' :
-          'bg-green-500/20 text-green-300'
+          type === 'anime' ? 'bg-[#66FCF1]/20 text-[#66FCF1]' :
+          type === 'movie' ? 'bg-[#45A29E]/20 text-[#45A29E]' :
+          type === 'tv' ? 'bg-[#66FCF1]/20 text-[#66FCF1]' :
+          'bg-[#45A29E]/20 text-[#45A29E]'
         } uppercase font-medium`}>
           {type}
         </span>
-        <span className="text-xs text-slate-400 ml-2">{date}</span>
+        <span className="text-xs text-[#C5C6C7]/60 ml-2">{date}</span>
       </div>
-      <h4 className="text-white font-medium mt-1 line-clamp-1">{title}</h4>
+      <h4 className="text-[#C5C6C7] font-medium mt-1 line-clamp-1">{title}</h4>
       <div className="flex items-center mt-1">
         {[...Array(5)].map((_, i) => (
           <svg 
             key={i} 
-            className={`w-3.5 h-3.5 ${i < rating ? 'text-yellow-400' : 'text-white/20'}`} 
+            className={`w-3.5 h-3.5 ${i < rating ? 'text-[#66FCF1]' : 'text-[#C5C6C7]/20'}`} 
             fill="currentColor" 
             viewBox="0 0 20 20"
           >

@@ -158,7 +158,7 @@ const Home = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                 <h4 className="text-white font-medium text-sm">Recommendation {i}</h4>
                 <div className="flex items-center mt-1">
-                  <div className="text-xs text-yellow-400 font-bold">{(Math.random() * 2 + 8).toFixed(1)}</div>
+                  <div className="text-xs text-[#66FCF1] font-bold">{(Math.random() * 2 + 8).toFixed(1)}</div>
                   <div className="text-xs text-slate-400 ml-1">/10</div>
                 </div>
               </div>

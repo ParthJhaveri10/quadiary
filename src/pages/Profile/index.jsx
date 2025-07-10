@@ -58,7 +58,7 @@ const Profile = () => {
               <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">Anime Fan</span>
               <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">TV Enthusiast</span>
               <span className="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm">Movie Buff</span>
-              <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm">Book Lover</span>
+              <span className="px-3 py-1 bg-[#45A29E]/20 text-[#45A29E] rounded-full text-sm">Book Lover</span>
             </div>
             
             <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
@@ -185,7 +185,7 @@ const Profile = () => {
                   {[...Array(5)].map((_, j) => (
                     <svg 
                       key={j} 
-                      className={`w-4 h-4 ${j < (5 - i % 2) ? 'text-yellow-400' : 'text-white/20'}`} 
+                      className={`w-4 h-4 ${j < (5 - i % 2) ? 'text-[#66FCF1]' : 'text-[#C5C6C7]/20'}`} 
                       fill="currentColor" 
                       viewBox="0 0 20 20"
                     >

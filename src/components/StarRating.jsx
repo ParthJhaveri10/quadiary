@@ -7,11 +7,11 @@ const STARS_COUNT = 5; // Use 5 stars visually, but represent a 10-point scale
 
 // Theme configuration for different media types
 const themeColors = {
-  anime: "text-violet-400",
-  movie: "text-orange-400",
-  tv: "text-blue-400",
-  book: "text-emerald-400",
-  default: "text-yellow-400"
+  anime: "text-[#66FCF1]",
+  movie: "text-[#45A29E]",
+  tv: "text-[#66FCF1]",
+  book: "text-[#45A29E]",
+  default: "text-[#66FCF1]"
 };
 
 const StarRating = ({ 

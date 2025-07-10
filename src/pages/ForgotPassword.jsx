@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { themeStyles } from '../styles/theme';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 py-8 relative overflow-hidden">
+        <div className={`min-h-screen ${themeStyles.backgrounds.main} flex items-center justify-center px-4 py-8 relative overflow-hidden`}>
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-violet-500/20 to-purple-600/20 rounded-full blur-3xl"></div>
@@ -32,7 +33,7 @@ const ForgotPassword = () => {
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
             </div>
 
-            <div className="max-w-md w-full bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8 relative z-10 transition-all duration-300 hover:bg-white/[0.12] hover:border-white/30">
+            <div className={`max-w-md w-full ${themeStyles.glass.card} p-8 relative z-10`}>
                 <div className="text-center mb-8">
                     <div className="mb-6">
                         <div className="w-20 h-20 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-purple-500/25 transition-transform duration-300 hover:scale-105">
@@ -41,8 +42,8 @@ const ForgotPassword = () => {
                             </svg>
                         </div>
                     </div>
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-purple-200 to-violet-200 bg-clip-text text-transparent mb-4">Reset Password</h1>
-                    <p className="text-slate-300 text-lg leading-relaxed">
+                    <h1 className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${themeStyles.gradients.title} mb-4`}>Reset Password</h1>
+                    <p className={`${themeStyles.text.secondary} text-lg leading-relaxed`}>
                         Enter your email address and we'll send you a secure link to reset your password.
                     </p>
                 </div>
@@ -50,10 +51,10 @@ const ForgotPassword = () => {
                 {error && (
                     <div className="bg-red-500/10 border border-red-400/30 rounded-xl p-4 mb-6 backdrop-blur-sm">
                         <div className="flex items-center">
-                            <svg className="w-5 h-5 text-red-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 text-[#66FCF1] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <p className="text-red-300 text-sm font-medium">{error}</p>
+                            <p className="text-[#66FCF1] text-sm font-medium">{error}</p>
                         </div>
                     </div>
                 )}

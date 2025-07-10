@@ -17,6 +17,11 @@ import ForgotPassword from './pages/ForgotPassword';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
+import Movies from './pages/Movies';
+import TVShows from './pages/TVShows';
+import Anime from './pages/Anime';
+import Books from './pages/Books';
+import Search from './pages/Search';
 
 
 
@@ -55,6 +60,56 @@ function AppContent() {
             <RequireAuth>
               <PageWrapper>
                 <Profile />
+              </PageWrapper>
+            </RequireAuth>
+          </Layout>
+        } />
+        
+        <Route path="/movies" element={
+          <Layout>
+            <RequireAuth>
+              <PageWrapper>
+                <Movies />
+              </PageWrapper>
+            </RequireAuth>
+          </Layout>
+        } />
+        
+        <Route path="/tv" element={
+          <Layout>
+            <RequireAuth>
+              <PageWrapper>
+                <TVShows />
+              </PageWrapper>
+            </RequireAuth>
+          </Layout>
+        } />
+        
+        <Route path="/anime" element={
+          <Layout>
+            <RequireAuth>
+              <PageWrapper>
+                <Anime />
+              </PageWrapper>
+            </RequireAuth>
+          </Layout>
+        } />
+        
+        <Route path="/books" element={
+          <Layout>
+            <RequireAuth>
+              <PageWrapper>
+                <Books />
+              </PageWrapper>
+            </RequireAuth>
+          </Layout>
+        } />
+        
+        <Route path="/search" element={
+          <Layout>
+            <RequireAuth>
+              <PageWrapper>
+                <Search />
               </PageWrapper>
             </RequireAuth>
           </Layout>
