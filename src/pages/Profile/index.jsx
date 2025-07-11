@@ -28,7 +28,7 @@ const Profile = () => {
                   className="w-28 h-28 rounded-2xl object-cover"
                 />
               ) : (
-                currentUser?.displayName ? currentUser.displayName[0].toUpperCase() : 'U'
+                currentUser?.name ? currentUser.name[0].toUpperCase() : currentUser?.displayName ? currentUser.displayName[0].toUpperCase() : 'U'
               )}
             </div>
             
@@ -39,9 +39,10 @@ const Profile = () => {
           
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-violet-200 mb-2">
-              {currentUser?.displayName || 'User Profile'}
+              Welcome back, {currentUser?.name || currentUser?.displayName || 'User'}
             </h1>
-            <p className="text-slate-300 mb-6">{currentUser?.email}</p>
+            <p className="text-slate-300 mb-1">{currentUser?.email}</p>
+            <span className="text-purple-300 font-medium block mb-5">Glad to see you again!</span>
             
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
@@ -58,7 +59,7 @@ const Profile = () => {
               <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">Anime Fan</span>
               <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">TV Enthusiast</span>
               <span className="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm">Movie Buff</span>
-              <span className="px-3 py-1 bg-[#45A29E]/20 text-[#45A29E] rounded-full text-sm">Book Lover</span>
+              <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm">Book Lover</span>
             </div>
             
             <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
@@ -185,7 +186,7 @@ const Profile = () => {
                   {[...Array(5)].map((_, j) => (
                     <svg 
                       key={j} 
-                      className={`w-4 h-4 ${j < (5 - i % 2) ? 'text-[#66FCF1]' : 'text-[#C5C6C7]/20'}`} 
+                      className={`w-4 h-4 ${j < (5 - i % 2) ? 'text-yellow-400' : 'text-white/20'}`} 
                       fill="currentColor" 
                       viewBox="0 0 20 20"
                     >

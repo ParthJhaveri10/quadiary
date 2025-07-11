@@ -31,10 +31,10 @@ const Home = () => {
       <div className={`${themeStyles.glass.card} p-8 mb-10`}>
         <div className="flex flex-col md:flex-row md:items-center justify-between">
           <div>
-            <span className="text-purple-300 font-medium">Good {time}!</span>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-violet-200 mt-2 mb-4">
-              Welcome back, {currentUser?.displayName || 'Friend'}
+            <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-violet-200 mt-2 mb-2">
+              Welcome back, {currentUser?.name || currentUser?.displayName || 'Friend'}
             </h1>
+            <span className="text-purple-300 font-medium block mb-2">Good {time}!</span>
             <p className="text-slate-300 text-lg max-w-2xl">
               Track and rate your favorite content across multiple mediums — all in one beautiful space.
             </p>
@@ -50,7 +50,7 @@ const Home = () => {
                 />
               ) : (
                 <div className="text-2xl font-bold text-white">
-                  {currentUser?.displayName ? currentUser.displayName[0].toUpperCase() : '?'}
+                  {currentUser?.name ? currentUser.name[0].toUpperCase() : currentUser?.displayName ? currentUser.displayName[0].toUpperCase() : '?'}
                 </div>
               )}
             </div>
@@ -158,7 +158,7 @@ const Home = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                 <h4 className="text-white font-medium text-sm">Recommendation {i}</h4>
                 <div className="flex items-center mt-1">
-                  <div className="text-xs text-[#66FCF1] font-bold">{(Math.random() * 2 + 8).toFixed(1)}</div>
+                  <div className="text-xs text-yellow-400 font-bold">{(Math.random() * 2 + 8).toFixed(1)}</div>
                   <div className="text-xs text-slate-400 ml-1">/10</div>
                 </div>
               </div>

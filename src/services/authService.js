@@ -80,13 +80,18 @@ class AuthService {
     // Get current user
     async getCurrentUser() {
         try {
-            return await account.get();
+            const user = await account.get();
+            return user;
         } catch (error) {
             // Handle specific Appwrite error cases
             if (error.code === 401 || 
                 error.type === 'general_unauthorized_scope' || 
-                error.message?.includes('missing scope')) {
+                error.message?.includes('missing scope') ||
+                error.message?.includes('unauthorized')) {
                 // User is not logged in - this is normal, return null silently
+                console.log('User not authenticated, clearing session');
+                // Clear any invalid session data
+                await this.clearSession();
                 return null;
             }
             // For other errors, log them
@@ -95,12 +100,39 @@ class AuthService {
         }
     }
 
+    // Clear session data
+    async clearSession() {
+        try {
+            await account.deleteSessions();
+        } catch (error) {
+            // Ignore errors when clearing sessions
+            console.log('Session already cleared or invalid');
+        }
+    }
+
+    // Check if user is authenticated
+    async isAuthenticated() {
+        try {
+            const user = await account.get();
+            return !!user;
+        } catch (error) {
+            return false;
+        }
+    }
+
     // Sign out user
     async logout() {
         try {
-            return await account.deleteSessions();
+            const result = await account.deleteSessions();
+            // Clear any cached user data
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
+            return result;
         } catch (error) {
             console.error('Error logging out:', error);
+            // Even if logout fails, clear local storage
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
             throw error;
         }
     }

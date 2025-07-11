@@ -26,9 +26,29 @@ export const AuthProvider = ({ children }) => {
             setCurrentUser(user);
         } catch (error) {
             // Error is already handled in authService, just set user to null
+            console.log('Auth check failed, user not authenticated');
             setCurrentUser(null);
         } finally {
             setLoading(false);
+        }
+    };
+
+    // Add retry mechanism for auth check
+    const retryAuthCheck = async (maxRetries = 3) => {
+        for (let i = 0; i < maxRetries; i++) {
+            try {
+                const user = await authService.getCurrentUser();
+                setCurrentUser(user);
+                return;
+            } catch (error) {
+                if (i === maxRetries - 1) {
+                    console.log('Max retries reached, setting user to null');
+                    setCurrentUser(null);
+                } else {
+                    console.log(`Auth check retry ${i + 1}/${maxRetries}`);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
         }
     };
 
@@ -50,12 +70,15 @@ export const AuthProvider = ({ children }) => {
         try {
             const session = await authService.login(credentials);
             if (session) {
+                // Wait a bit for session to be established
+                await new Promise(resolve => setTimeout(resolve, 500));
                 const user = await authService.getCurrentUser();
                 setCurrentUser(user);
             }
             return session;
         } catch (error) {
             console.error('Login failed:', error);
+            setCurrentUser(null);
             throw error;
         }
     };
@@ -66,6 +89,8 @@ export const AuthProvider = ({ children }) => {
             setCurrentUser(null);
         } catch (error) {
             console.error('Logout failed:', error);
+            // Even if logout fails, clear the user state
+            setCurrentUser(null);
             throw error;
         }
     };

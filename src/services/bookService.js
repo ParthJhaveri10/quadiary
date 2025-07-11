@@ -1,21 +1,46 @@
 import axios from 'axios';
 
-// Replace with actual Google Books API endpoint
+// Google Books API configuration
 const API_URL = 'https://www.googleapis.com/books/v1';
-const API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY'; // Optional for Google Books
+const API_KEY = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
+
+// Helper function to check if API key is available
+const hasValidApiKey = () => {
+  const isValid = API_KEY && API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY' && API_KEY.length > 10;
+  return isValid;
+};
+
+// Create axios instance with better error handling
+const booksApi = axios.create({
+  baseURL: API_URL,
+  timeout: 10000, // 10 second timeout
+});
 
 // Search for books
 export const searchBooks = async (query, page = 0, maxResults = 20) => {
   try {
+    if (!query.trim()) {
+      return {
+        results: [],
+        page: 0,
+        totalPages: 0,
+        totalResults: 0
+      };
+    }
+
     const startIndex = page * maxResults;
-    const response = await axios.get(`${API_URL}/volumes`, {
-      params: {
-        q: query,
-        startIndex,
-        maxResults,
-        key: API_KEY
-      }
-    });
+    const params = {
+      q: query,
+      startIndex,
+      maxResults
+    };
+
+    // Only add API key if it's available and valid
+    if (hasValidApiKey()) {
+      params.key = API_KEY;
+    }
+
+    const response = await booksApi.get('/volumes', { params });
     
     // Transform the data to match expected format
     const books = response.data.items || [];
@@ -49,11 +74,14 @@ export const searchBooks = async (query, page = 0, maxResults = 20) => {
 // Get book details by ID
 export const getBookById = async (bookId) => {
   try {
-    const response = await axios.get(`${API_URL}/volumes/${bookId}`, {
-      params: {
-        key: API_KEY
-      }
-    });
+    const params = {};
+    
+    // Only add API key if it's available and valid
+    if (hasValidApiKey()) {
+      params.key = API_KEY;
+    }
+
+    const response = await booksApi.get(`/volumes/${bookId}`, { params });
     
     const book = response.data;
     
@@ -86,15 +114,19 @@ export const getBookById = async (bookId) => {
 export const getBooksByCategory = async (category, page = 0, maxResults = 20) => {
   try {
     const startIndex = page * maxResults;
-    const response = await axios.get(`${API_URL}/volumes`, {
-      params: {
-        q: `subject:${category}`,
-        orderBy: 'relevance',
-        startIndex,
-        maxResults,
-        key: API_KEY
-      }
-    });
+    const params = {
+      q: `subject:${category}`,
+      orderBy: 'relevance',
+      startIndex,
+      maxResults
+    };
+
+    // Only add API key if it's available and valid
+    if (hasValidApiKey()) {
+      params.key = API_KEY;
+    }
+
+    const response = await booksApi.get('/volumes', { params });
     
     // Transform the data to match expected format
     const books = response.data.items || [];
@@ -131,15 +163,19 @@ export const getNewReleases = async (page = 0, maxResults = 10) => {
   
   try {
     const startIndex = page * maxResults;
-    const response = await axios.get(`${API_URL}/volumes`, {
-      params: {
-        q: `date:${currentYear}`,
-        orderBy: 'newest',
-        startIndex,
-        maxResults,
-        key: API_KEY
-      }
-    });
+    const params = {
+      q: `date:${currentYear}`,
+      orderBy: 'newest',
+      startIndex,
+      maxResults
+    };
+
+    // Only add API key if it's available and valid
+    if (hasValidApiKey()) {
+      params.key = API_KEY;
+    }
+
+    const response = await booksApi.get('/volumes', { params });
     
     return {
       results: response.data.items || [],
@@ -156,15 +192,19 @@ export const getNewReleases = async (page = 0, maxResults = 10) => {
 export const getPopularBooks = async (page = 0, maxResults = 20) => {
   try {
     const startIndex = page * maxResults;
-    const response = await axios.get(`${API_URL}/volumes`, {
-      params: {
-        q: 'bestseller OR popular OR award',
-        orderBy: 'relevance',
-        startIndex,
-        maxResults,
-        key: API_KEY
-      }
-    });
+    const params = {
+      q: 'bestseller OR popular OR award',
+      orderBy: 'relevance',
+      startIndex,
+      maxResults
+    };
+
+    // Only add API key if it's available and valid
+    if (hasValidApiKey()) {
+      params.key = API_KEY;
+    }
+
+    const response = await booksApi.get('/volumes', { params });
     
     // Transform the data to match expected format
     const books = response.data.items || [];

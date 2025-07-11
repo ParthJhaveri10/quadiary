@@ -205,8 +205,8 @@ const Books = () => {
           </div>
         ) : (
           <div className={themeStyles.layout.grid.cols6}>
-            {getCurrentBooks().map((book) => (
-              <BookCard key={book.id} book={book} />
+            {getCurrentBooks().map((book, index) => (
+              <BookCard key={`${book.id}-${index}`} book={book} />
             ))}
           </div>
         )}

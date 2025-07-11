@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
+import AuthErrorBoundary from './components/auth/AuthErrorBoundary';
 
 // Component imports
 import BackgroundDecoration from './components/layout/BackgroundDecoration';
@@ -129,11 +130,13 @@ function AppContent() {
 // Main App component that provides context providers
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </AuthProvider>
+    <AuthErrorBoundary>
+      <AuthProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </AuthProvider>
+    </AuthErrorBoundary>
   );
 }
 

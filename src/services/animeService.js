@@ -1,8 +1,17 @@
 import axios from 'axios';
 
-// Replace with actual AniList API endpoint and key
+// AniList API endpoint (no API key needed for public queries)
 const API_URL = 'https://graphql.anilist.co';
-const API_KEY = 'YOUR_ANILIST_API_KEY';
+
+// Create axios instance with proper headers for GraphQL
+const animeApi = axios.create({
+  baseURL: API_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  }
+});
 
 // GraphQL query for anime search
 const ANIME_SEARCH_QUERY = `
@@ -166,20 +175,14 @@ query ($page: Int, $perPage: Int) {
 // Search for anime
 export const searchAnime = async (query, page = 1, perPage = 20) => {
   try {
-    const response = await axios.post(
-      API_URL,
+    const response = await animeApi.post(
+      '/',
       {
         query: ANIME_SEARCH_QUERY,
         variables: {
           search: query,
           page,
           perPage
-        }
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
         }
       }
     );
@@ -278,18 +281,12 @@ export const getAnimeById = async (animeId) => {
       }
     `;
     
-    const response = await axios.post(
-      API_URL,
+    const response = await animeApi.post(
+      '/',
       {
         query,
         variables: {
           id: animeId
-        }
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
         }
       }
     );
@@ -324,19 +321,13 @@ export const getAnimeById = async (animeId) => {
 // Get popular anime
 export const getPopularAnime = async (page = 1, perPage = 20) => {
   try {
-    const response = await axios.post(
-      API_URL,
+    const response = await animeApi.post(
+      '/',
       {
         query: POPULAR_ANIME_QUERY,
         variables: {
           page,
           perPage
-        }
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
         }
       }
     );
@@ -373,19 +364,13 @@ export const getPopularAnime = async (page = 1, perPage = 20) => {
 // Get top-rated anime
 export const getTopRatedAnime = async (page = 1, perPage = 20) => {
   try {
-    const response = await axios.post(
-      API_URL,
+    const response = await animeApi.post(
+      '/',
       {
         query: TOP_RATED_ANIME_QUERY,
         variables: {
           page,
           perPage
-        }
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
         }
       }
     );
