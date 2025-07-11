@@ -39,7 +39,7 @@ const Profile = () => {
           
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-violet-200 mb-2">
-              Welcome back, {currentUser?.name || currentUser?.displayName || 'User'}
+              Welcome back {currentUser?.name || currentUser?.displayName || 'Friend'}
             </h1>
             <p className="text-slate-300 mb-1">{currentUser?.email}</p>
             <span className="text-purple-300 font-medium block mb-5">Glad to see you again!</span>

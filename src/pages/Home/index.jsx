@@ -32,7 +32,7 @@ const Home = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between">
           <div>
             <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-violet-200 mt-2 mb-2">
-              Welcome back, {currentUser?.name || currentUser?.displayName || 'Friend'}
+              Welcome back {currentUser?.name || currentUser?.displayName || 'Friend'}
             </h1>
             <span className="text-purple-300 font-medium block mb-2">Good {time}!</span>
             <p className="text-slate-300 text-lg max-w-2xl">
