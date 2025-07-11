@@ -17,7 +17,7 @@ export const securityConfig = {
         scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'", "https://cloud.appwrite.io", "https://api.themoviedb.org"],
+        connectSrc: ["'self'", "https://cloud.appwrite.io", "https://api.themoviedb.org", "https://www.googleapis.com", "https://graphql.anilist.co"],
         fontSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
     }
 };
